@@ -1,0 +1,7 @@
+dist/
+node_modules/
+vite.config.js
+
+!.eslintrc.cjs
+!.prettierrc.cjs
+!.stylelintrc.cjs
