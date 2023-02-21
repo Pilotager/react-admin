@@ -1,0 +1,15 @@
+/*换行显示省略号*/
+.ellipsis(@text-line) when(@text-line =1) {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ellipsis(@text-line) when(@text-line > 1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  /* autoprefixer: ignore next */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: @text-line;
+}

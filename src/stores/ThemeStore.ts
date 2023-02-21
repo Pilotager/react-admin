@@ -1,0 +1,3 @@
+class ThemeStore {}
+
+export { ThemeStore };
