@@ -1,12 +1,20 @@
 import './index.less';
 
-import { FC, useState } from 'react';
+import { FC, Suspense, useState, createElement } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Layout, type MenuProps } from 'antd';
-import { AppstoreOutlined, SettingOutlined, MailOutlined } from '@ant-design/icons';
+import {
+  AppstoreOutlined,
+  SettingOutlined,
+  MailOutlined,
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+} from '@ant-design/icons';
+import Header from '../Header';
+import TagsNav from '../TagsNav';
 import Menu from '../Menu';
 
-const { Header, Content, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -46,23 +54,45 @@ const items: MenuItem[] = [
   ]),
 ];
 
+const TriggerNode: FC<{ collapsed: boolean; onClick: () => void }> = ({ collapsed, onClick }) => {
+  return (
+    <div className='admin-layout-trigger' onClick={onClick}>
+      {createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+        className: 'trigger',
+      })}
+    </div>
+  );
+};
+
 const LayoutWrap: FC = () => {
   const location = useLocation();
   const [selectedKey, setSelectedKey] = useState<string>(location.pathname);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <Layout className='admin-layout'>
-      <Sider trigger={null} collapsible theme='light'>
-        <Menu
-          data={items}
-          selectedKey={selectedKey}
-          onSelectedChange={(key) => setSelectedKey(key)}
-        />
-      </Sider>
+      <Header />
       <Layout>
-        <Header className='admin-layout-header'></Header>
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          trigger={<TriggerNode collapsed={collapsed} onClick={() => setCollapsed(!collapsed)} />}
+          theme='light'
+          width={208}
+          className='admin-layout-sider'>
+          <div className='admin-layout-menu-wrap'>
+            <Menu
+              data={items}
+              selectedKey={selectedKey}
+              onSelectedChange={(key) => setSelectedKey(key)}
+            />
+          </div>
+        </Sider>
         <Content>
-          <Outlet />
+          <TagsNav />
+          <Suspense fallback={null}>
+            <Outlet />
+          </Suspense>
         </Content>
       </Layout>
     </Layout>
