@@ -7,12 +7,12 @@ export default function viteMockServeFun(command: ConfigEnv['command']) {
   return viteMockServe({
     supportTs: true,
     logger: false,
-    mockPath: '../../../src/mock',
+    mockPath: './src/mock',
     localEnabled: command === 'serve',
     prodEnabled: command !== 'serve' && prodMock,
-    injectCode: `
-      import { setupProdMockServer } from './mock/mockProdServer';
-      setupProdMockServer();
-    `,
+    // injectCode: `
+    //   import { setupProdMockServer } from './src/mock/mockProdServer';
+    //   setupProdMockServer();
+    // `,
   });
 }

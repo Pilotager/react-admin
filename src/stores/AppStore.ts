@@ -1,14 +1,31 @@
-import { makeAutoObservable, action, computed } from 'mobx';
-import type { ITagItem } from '@/interfaces';
+import { makeAutoObservable, action, computed, runInAction } from 'mobx';
+import { message } from 'antd';
+import { getMenuListApi } from '@/apis';
+import type { ITagItem, IMenuItem } from '@/interfaces';
+
+const { error } = message;
 
 // 页签全局Store
-class TagStore {
+class AppStore {
   constructor() {
     makeAutoObservable(this);
   }
 
   public activeTagCode = ''; // 当前高亮tag
   private tags: ITagItem[] = []; // 页签数据
+  private menuData: IMenuItem[] = []; // 导航数据
+
+  // 获取菜单列表
+  public getMenuData = async () => {
+    const res = await getMenuListApi();
+    if (res.errorCode !== 'SUCCESS') {
+      error(res.errorMsg);
+      return;
+    }
+    runInAction(() => {
+      this.menuData = res.data || [];
+    });
+  };
 
   @action('添加tag')
   public addTag = (tag: ITagItem) => {
@@ -53,6 +70,11 @@ class TagStore {
   public get tagList() {
     return this.tags.slice(0);
   }
+
+  @computed
+  public get menuList() {
+    return this.menuData.slice(0);
+  }
 }
 
-export { TagStore };
+export { AppStore };

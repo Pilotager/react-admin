@@ -1,9 +1,9 @@
-import { TagStore } from './TagStore';
+import { AppStore } from './AppStore';
 
 export class RootStore {
-  public tagStore: TagStore;
+  public appStore: AppStore;
 
   constructor() {
-    this.tagStore = new TagStore();
+    this.appStore = new AppStore();
   }
 }

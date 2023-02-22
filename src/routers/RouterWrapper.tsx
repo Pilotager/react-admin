@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
   RouterProvider,
   Route,
@@ -6,15 +5,10 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import { Layout } from '@/layout';
-import store from '@/store';
 
 import { RouteObjects } from './RouterConfig';
 
 const RouterWrapper = () => {
-  // useEffect(() => {
-  //   store.common.getUserInfo();
-  // }, []);
-
   const getFilteredRoutes = () => {
     let filteredRouteObjects = [];
     filteredRouteObjects = RouteObjects.filter((routeObject) => !!routeObject.roles);
