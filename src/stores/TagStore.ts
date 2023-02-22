@@ -1,4 +1,4 @@
-import { makeAutoObservable, action } from 'mobx';
+import { makeAutoObservable, action, computed } from 'mobx';
 import type { ITagItem } from '@/interfaces';
 
 // 页签全局Store
@@ -7,8 +7,8 @@ class TagStore {
     makeAutoObservable(this);
   }
 
-  public tags: ITagItem[] = []; // 页签数据
   public activeTagCode = ''; // 当前高亮tag
+  private tags: ITagItem[] = []; // 页签数据
 
   @action('添加tag')
   public addTag = (tag: ITagItem) => {
@@ -48,6 +48,11 @@ class TagStore {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.tags = [this.tags[0], currentTag!];
   };
+
+  @computed
+  public get tagList() {
+    return this.tags.slice(0);
+  }
 }
 
 export { TagStore };

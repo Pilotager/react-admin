@@ -1,6 +1,6 @@
 import './index.less';
 
-import { FC, Suspense, useState, createElement } from 'react';
+import { FC, Suspense, useState, createElement, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Layout, type MenuProps } from 'antd';
 import {
@@ -10,6 +10,8 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
+import { observer, useLocalObservable } from 'mobx-react';
+import store from '@/stores';
 import Header from '../Header';
 import TagsNav from '../TagsNav';
 import Menu from '../Menu';
@@ -19,7 +21,7 @@ const { Content, Sider } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
-  label: React.ReactNode,
+  label: string,
   key: React.Key,
   icon?: React.ReactNode,
   children?: MenuItem[],
@@ -34,9 +36,9 @@ function getItem(
   } as MenuItem;
 }
 
-const items: MenuItem[] = [
+const menuList: MenuItem[] = [
   getItem('Navigation One', 'sub1', <MailOutlined />, [
-    getItem('Option 1', '1'),
+    getItem('Option 1', '/'),
     getItem('Option 2', '2'),
     getItem('Option 3', '3'),
     getItem('Option 4', '4'),
@@ -66,8 +68,23 @@ const TriggerNode: FC<{ collapsed: boolean; onClick: () => void }> = ({ collapse
 
 const LayoutWrap: FC = () => {
   const location = useLocation();
+  const { tagList, addTag } = useLocalObservable(() => store.tagStore);
   const [selectedKey, setSelectedKey] = useState<string>(location.pathname);
   const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    const tag: MenuItem | undefined = menuList.find((v: MenuItem) => v?.key === location.pathname);
+    if (tag) {
+      addTag({
+        path: tag.key as string,
+        code: tag.key as string,
+        closable: true,
+        label: tag.label,
+      });
+    }
+  }, [location.pathname, menuList]);
+
+  console.log(tagList);
 
   return (
     <Layout className='admin-layout'>
@@ -82,14 +99,14 @@ const LayoutWrap: FC = () => {
           className='admin-layout-sider'>
           <div className='admin-layout-menu-wrap'>
             <Menu
-              data={items}
+              data={menuList}
               selectedKey={selectedKey}
               onSelectedChange={(key) => setSelectedKey(key)}
             />
           </div>
         </Sider>
         <Content>
-          <TagsNav />
+          <TagsNav tags={tagList} />
           <Suspense fallback={null}>
             <Outlet />
           </Suspense>
@@ -99,4 +116,4 @@ const LayoutWrap: FC = () => {
   );
 };
 
-export default LayoutWrap;
+export default observer(LayoutWrap);

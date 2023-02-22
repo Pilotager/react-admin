@@ -2,16 +2,13 @@ import './index.less';
 
 import { FC } from 'react';
 import { Tabs } from 'antd';
+import { ITagItem } from '@/interfaces';
 
-const tags = [
-  {
-    path: '',
-    closable: true,
-    label: '1',
-  },
-];
+type IProps = {
+  tags: ITagItem[];
+};
 
-const TagsNav: FC = () => {
+const TagsNav: FC<IProps> = ({ tags = [] }) => {
   return (
     <div className='admin-layout-tab'>
       <Tabs

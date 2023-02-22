@@ -12,10 +12,8 @@ const __APP_INFO__ = {
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
-  const isBuild = command === 'build';
-
   return {
-    plugins: createVitePlugins(mode, isBuild),
+    plugins: createVitePlugins(mode, command),
     resolve: {
       alias: {
         '@': path.join(__dirname, 'src'),
@@ -26,14 +24,6 @@ export default defineConfig(({ command, mode }) => {
         output: {
           assetFileNames: '[ext]/[name].[hash].[ext]',
           chunkFileNames: 'js/[name].[hash].js',
-        },
-      },
-      terserOptions: {
-        compress: {
-          keep_infinity: true,
-          // Used to delete console in production environment
-          drop_console: true,
-          drop_debugger: true,
         },
       },
     },
