@@ -44,7 +44,7 @@ const MenuWrap: FC<IProps> = ({ data = [], openKeyProp, selectedKey, onSelectedC
   }, [data]);
 
   useEffect(() => {
-    setOpenkey([openKeyProp]);
+    !!openKeyProp && setOpenkey([openKeyProp]);
   }, [openKeyProp]);
 
   const onOpenChange = (keys: string[]): void => {

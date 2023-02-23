@@ -38,16 +38,17 @@ const LayoutWrap: FC = () => {
   useEffect(() => {
     const item = menuFlattenList.find((v: IMenuItem) => v.url === location.pathname);
     setOpenkey(item?.parent || '');
+    setSelectedKey(item?.url || '');
     if (item) {
       addTag({
         path: item.url,
-        code: item.url,
+        code: item.code,
         closable: item.code !== 'dashboard',
         label: item.name,
       });
       setActiveTag({
         path: item.url,
-        code: item.url,
+        code: item.code,
         closable: item.code !== 'dashboard',
         label: item.name,
       });

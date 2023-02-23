@@ -32,6 +32,16 @@ class AppStore {
 
   @action('添加tag')
   public addTag = (tag: ITagItem) => {
+    if (!this.tagList[0] || this.tagList[0].code !== 'dashboard') {
+      const item = this.menuFlattenData.find((v) => v.code === 'dashboard');
+      !!item &&
+        this.tags.unshift({
+          path: item.url,
+          code: item.code,
+          closable: false,
+          label: item.name,
+        });
+    }
     if (!this.tags.find((v) => v.path === tag.path)) {
       this.tags.push(tag);
     }
