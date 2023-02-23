@@ -5,6 +5,7 @@ import { createVitePlugins } from './config/vite/plugins';
 import pkg from './package.json';
 
 const { dependencies, devDependencies, name, version } = pkg;
+
 const __APP_INFO__ = {
   pkg: { dependencies, devDependencies, name, version },
   lastBuildTime: dayjs().format('YYYY-MM-DD HH:mm:ss'),

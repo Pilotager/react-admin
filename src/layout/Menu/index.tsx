@@ -1,16 +1,21 @@
 import './index.less';
 
-import { FC, useEffect, useState, createElement } from 'react';
+import { FC, useEffect, useState, createElement, memo } from 'react';
 import { Menu } from 'antd';
 import * as Icon from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import type { SelectInfo } from 'rc-menu/lib/interface';
+import { isEqual } from 'lodash';
 import { IMenuItem } from '@/interfaces';
 
 type IProps = {
   data: IMenuItem[];
   selectedKey: string; // 当前选中的菜单项 key
   onSelectedChange: (key: string) => void;
+};
+
+const areEqual = (prevProps: Readonly<IProps>, nextProps: Readonly<IProps>): boolean => {
+  return isEqual(prevProps.data, nextProps.data) && prevProps.selectedKey === nextProps.selectedKey;
 };
 
 // TODO 暂时先这么写
@@ -76,4 +81,4 @@ const MenuWrap: FC<IProps> = ({ data = [], selectedKey, onSelectedChange }) => {
   );
 };
 
-export default MenuWrap;
+export default memo(MenuWrap, areEqual);

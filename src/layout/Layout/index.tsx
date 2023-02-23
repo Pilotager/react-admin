@@ -25,7 +25,8 @@ const TriggerNode: FC<{ collapsed: boolean; onClick: () => void }> = ({ collapse
 
 const LayoutWrap: FC = () => {
   const location = useLocation();
-  const { tagList, menuList, addTag, getMenuData } = useLocalObservable(() => store.appStore);
+  const { tagList, menuList, menuFlattenList, activeTagCode, getMenuData, addTag, setActiveTag } =
+    useLocalObservable(() => store.appStore);
   const [selectedKey, setSelectedKey] = useState<string>(location.pathname);
   const [collapsed, setCollapsed] = useState(false);
 
@@ -34,16 +35,22 @@ const LayoutWrap: FC = () => {
   }, []);
 
   useEffect(() => {
-    const item = menuList.find((v: IMenuItem) => v.url === location.pathname);
+    const item = menuFlattenList.find((v: IMenuItem) => v.url === location.pathname);
     if (item) {
       addTag({
         path: item.url,
         code: item.url,
-        closable: true,
+        closable: item.code !== 'dashboard',
+        label: item.name,
+      });
+      setActiveTag({
+        path: item.url,
+        code: item.url,
+        closable: item.code !== 'dashboard',
         label: item.name,
       });
     }
-  }, [location.pathname, menuList]);
+  }, [location.pathname, menuFlattenList]);
 
   return (
     <Layout className='admin-layout'>
@@ -65,7 +72,7 @@ const LayoutWrap: FC = () => {
           </div>
         </Sider>
         <Content>
-          <TagsNav tags={tagList} />
+          <TagsNav data={tagList} activeTagCode={activeTagCode} />
           <Suspense fallback={null}>
             <Outlet />
           </Suspense>

@@ -4,7 +4,7 @@ const menuData = [
   {
     code: 'dashboard',
     icon: 'DashboardOutlined',
-    url: '/dashboard',
+    url: '/',
     name: '工作台',
   },
   {

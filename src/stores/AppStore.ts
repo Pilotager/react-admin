@@ -14,6 +14,7 @@ class AppStore {
   public activeTagCode = ''; // 当前高亮tag
   private tags: ITagItem[] = []; // 页签数据
   private menuData: IMenuItem[] = []; // 导航数据
+  private menuFlattenData: IMenuItem[] = []; // 导航数据
 
   // 获取菜单列表
   public getMenuData = async () => {
@@ -24,7 +25,23 @@ class AppStore {
     }
     runInAction(() => {
       this.menuData = res.data || [];
+      this.menuFlattenData = this.flattenMenu(res.data || []);
     });
+  };
+
+  // 展平菜单数组
+  private flattenMenu = (data: IMenuItem[]): IMenuItem[] => {
+    const arr: IMenuItem[] = [];
+    const fun = (meun: IMenuItem[]) => {
+      meun.forEach((v) => {
+        arr.push(v);
+        if (v.children) {
+          fun(v.children);
+        }
+      });
+    };
+    fun(data);
+    return arr;
   };
 
   @action('添加tag')
@@ -46,22 +63,22 @@ class AppStore {
 
   @action('选中高亮tag')
   public setActiveTag = (tag: ITagItem) => {
-    this.activeTagCode = tag.path;
+    this.activeTagCode = tag.code;
   };
 
   @action('关闭所有tag')
   public closeAllTag = () => {
-    this.activeTagCode = this.tags[0].path;
+    this.activeTagCode = this.tags[0].code;
     this.tags = this.tags.filter((v) => !v.closable);
   };
 
   @action('关闭其他tag')
   public closeOtherTag = () => {
-    if (this.activeTagCode === this.tags[0].path) {
+    if (this.activeTagCode === this.tags[0].code) {
       this.closeAllTag();
       return;
     }
-    const currentTag = this.tags.find((v) => v.path === this.activeTagCode);
+    const currentTag = this.tags.find((v) => v.code === this.activeTagCode);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.tags = [this.tags[0], currentTag!];
   };
@@ -74,6 +91,11 @@ class AppStore {
   @computed
   public get menuList() {
     return this.menuData.slice(0);
+  }
+
+  @computed
+  public get menuFlattenList() {
+    return this.menuFlattenData.slice(0);
   }
 }
 

@@ -11,6 +11,24 @@ export const home = [
       <Route
         index
         key='/'
+        path='/'
+        element={
+          <ErrorBoundary>
+            <React.Suspense fallback={<Loading />}>
+              <Home />
+            </React.Suspense>
+          </ErrorBoundary>
+        }
+      />
+    ),
+  },
+  {
+    roles: [],
+    route: (
+      <Route
+        index
+        key='/patient/patient-list'
+        path='/patient/patient-list'
         element={
           <ErrorBoundary>
             <React.Suspense fallback={<Loading />}>
