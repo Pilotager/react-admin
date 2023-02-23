@@ -4,5 +4,6 @@ export interface IMenuItem {
   icon: string;
   url: string;
   name: string;
+  parent?: string;
   children: IMenuItem[];
 }

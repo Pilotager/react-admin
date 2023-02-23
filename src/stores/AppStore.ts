@@ -2,6 +2,7 @@ import { makeAutoObservable, action, computed, runInAction } from 'mobx';
 import { message } from 'antd';
 import { getMenuListApi } from '@/apis';
 import type { ITagItem, IMenuItem } from '@/interfaces';
+import { setTagNavListInStorage, flattenMenu } from '@/utils';
 
 const { error } = message;
 
@@ -25,23 +26,8 @@ class AppStore {
     }
     runInAction(() => {
       this.menuData = res.data || [];
-      this.menuFlattenData = this.flattenMenu(res.data || []);
+      this.menuFlattenData = flattenMenu(res.data || []);
     });
-  };
-
-  // 展平菜单数组
-  private flattenMenu = (data: IMenuItem[]): IMenuItem[] => {
-    const arr: IMenuItem[] = [];
-    const fun = (meun: IMenuItem[]) => {
-      meun.forEach((v) => {
-        arr.push(v);
-        if (v.children) {
-          fun(v.children);
-        }
-      });
-    };
-    fun(data);
-    return arr;
   };
 
   @action('添加tag')
@@ -85,7 +71,9 @@ class AppStore {
 
   @computed
   public get tagList() {
-    return this.tags.slice(0);
+    const list = this.tags.slice(0);
+    setTagNavListInStorage(list);
+    return list;
   }
 
   @computed

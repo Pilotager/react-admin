@@ -27,6 +27,7 @@ const LayoutWrap: FC = () => {
   const location = useLocation();
   const { tagList, menuList, menuFlattenList, activeTagCode, getMenuData, addTag, setActiveTag } =
     useLocalObservable(() => store.appStore);
+  const [openKey, setOpenkey] = useState<string>('');
   const [selectedKey, setSelectedKey] = useState<string>(location.pathname);
   const [collapsed, setCollapsed] = useState(false);
 
@@ -36,6 +37,7 @@ const LayoutWrap: FC = () => {
 
   useEffect(() => {
     const item = menuFlattenList.find((v: IMenuItem) => v.url === location.pathname);
+    setOpenkey(item?.parent || '');
     if (item) {
       addTag({
         path: item.url,
@@ -67,6 +69,7 @@ const LayoutWrap: FC = () => {
             <Menu
               data={menuList}
               selectedKey={selectedKey}
+              openKeyProp={openKey}
               onSelectedChange={(key) => setSelectedKey(key)}
             />
           </div>

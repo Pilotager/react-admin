@@ -11,11 +11,16 @@ import { IMenuItem } from '@/interfaces';
 type IProps = {
   data: IMenuItem[];
   selectedKey: string; // 当前选中的菜单项 key
+  openKeyProp: string; // 当前展开项
   onSelectedChange: (key: string) => void;
 };
 
 const areEqual = (prevProps: Readonly<IProps>, nextProps: Readonly<IProps>): boolean => {
-  return isEqual(prevProps.data, nextProps.data) && prevProps.selectedKey === nextProps.selectedKey;
+  return (
+    isEqual(prevProps.data, nextProps.data) &&
+    prevProps.selectedKey === nextProps.selectedKey &&
+    prevProps.openKeyProp === nextProps.openKeyProp
+  );
 };
 
 // TODO 暂时先这么写
@@ -25,7 +30,7 @@ const iconToElement = (name: string) =>
     style: { fontSize: '16px' },
   });
 
-const MenuWrap: FC<IProps> = ({ data = [], selectedKey, onSelectedChange }) => {
+const MenuWrap: FC<IProps> = ({ data = [], openKeyProp, selectedKey, onSelectedChange }) => {
   const navigate = useNavigate();
   const [openKey, setOpenkey] = useState<string[]>([]);
   const [rootKey, setRootKey] = useState<string[]>([]);
@@ -37,6 +42,10 @@ const MenuWrap: FC<IProps> = ({ data = [], selectedKey, onSelectedChange }) => {
     });
     setRootKey(key);
   }, [data]);
+
+  useEffect(() => {
+    setOpenkey([openKeyProp]);
+  }, [openKeyProp]);
 
   const onOpenChange = (keys: string[]): void => {
     const latestOpenKey = keys.find((key) => openKey.indexOf(key) === -1) || '';

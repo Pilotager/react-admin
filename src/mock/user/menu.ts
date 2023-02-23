@@ -14,6 +14,7 @@ const menuData = [
     name: '患者管理',
     children: [
       {
+        parent: '/patient',
         code: 'patient-list',
         icon: 'UserOutlined',
         url: '/patient/patient-list',
