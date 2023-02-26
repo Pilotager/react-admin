@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import { ErrorBoundary, Loading } from '@/layout';
+import { ErrorBoundary } from '@/layout';
 
 const Home = React.lazy(() => import('@/pages/Home/Home'));
+const Account = React.lazy(() => import('@/pages/Account/Account'));
 
 export const home = [
   {
@@ -14,9 +15,7 @@ export const home = [
         path='/'
         element={
           <ErrorBoundary>
-            <React.Suspense fallback={<Loading />}>
-              <Home />
-            </React.Suspense>
+            <Home />
           </ErrorBoundary>
         }
       />
@@ -31,9 +30,7 @@ export const home = [
         path='/patient/patient-list'
         element={
           <ErrorBoundary>
-            <React.Suspense fallback={<Loading />}>
-              <Home />
-            </React.Suspense>
+            <Account />
           </ErrorBoundary>
         }
       />

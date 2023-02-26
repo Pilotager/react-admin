@@ -54,7 +54,8 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-imp": "^2.3.1",
     "vite-plugin-mock": "^2.9.6",
-    "vite-plugin-remove-console": "^2.0.0"
+    "vite-plugin-remove-console": "^2.0.0",
+    "vite-plugin-svgr": "^2.4.0"
   },
   "lint-staged": {
     "**/*.{js,jsx,tsx,ts,json}": [

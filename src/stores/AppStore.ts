@@ -6,6 +6,13 @@ import { setTagNavListInStorage, flattenMenu } from '@/utils';
 
 const { error } = message;
 
+export type ThemeType = 'dark' | 'light';
+
+const userSystemTheme: ThemeType = window.matchMedia('(prefers-color-scheme: light)').matches
+  ? 'light'
+  : 'dark';
+const userLocalTheme: ThemeType = (localStorage.getItem('user-theme') as ThemeType) || 'light';
+
 // 页签全局Store
 class AppStore {
   constructor() {
@@ -16,6 +23,7 @@ class AppStore {
   private tags: ITagItem[] = []; // 页签数据
   private menuData: IMenuItem[] = []; // 导航数据
   private menuFlattenData: IMenuItem[] = []; // 导航数据
+  public theme: ThemeType = userLocalTheme || userSystemTheme; // 主题颜色
 
   // 获取菜单列表
   public getMenuData = async () => {
@@ -77,6 +85,18 @@ class AppStore {
     const currentTag = this.tags.find((v) => v.code === this.activeTagCode);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.tags = [this.tags[0], currentTag!];
+  };
+
+  @action('设置主题')
+  public setTheme = (theme: ThemeType) => {
+    this.theme = theme;
+    if (theme === 'dark' && !document.body.hasAttribute('theme')) {
+      document.body.setAttribute('theme', 'dark');
+      return;
+    }
+    if (document.body.hasAttribute('theme')) {
+      document.body.removeAttribute('theme');
+    }
   };
 
   @computed

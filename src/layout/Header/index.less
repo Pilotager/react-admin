@@ -6,25 +6,81 @@
     background: #fff !important;
     box-shadow: 0 4px 10px #ddd;
     z-index: 9;
+    display: flex;
+    align-items: center;
 
     &_logo {
       position: relative;
       overflow: hidden;
       height: 100%;
-
-      a {
-        display: flex;
-        align-items: center;
-        height: 100%;
-      }
+      color: rgba(0, 0, 0, 0.88);
+      display: flex;
+      align-items: center;
+      height: 100%;
 
       h1 {
         height: 32px;
         margin: 0 0 0 12px;
-        color: #fff;
         font-weight: 600;
         font-size: 18px;
         line-height: 32px;
+      }
+    }
+
+    &_empty {
+      flex: 1;
+    }
+
+    &_switch {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 6px;
+      cursor: pointer;
+
+      .icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &_notice {
+      font-size: 18px;
+    }
+
+    &_name {
+      margin-left: 8px;
+      vertical-align: middle;
+      display: inline-block;
+      line-height: 0;
+      text-align: center;
+      text-transform: none;
+      text-rendering: optimizelegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    &_drop {
+      padding: 0 12px;
+      transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.025);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+body[theme='dark'] {
+  .admin-layout {
+    &-header {
+      background: #141414 !important;
+      box-shadow: none;
+
+      &_logo {
+        color: rgba(255, 255, 255, 0.85);
       }
     }
   }

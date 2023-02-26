@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
-const Home: FC = () => {
+const Account: FC = () => {
   return <input type='text' />;
 };
 
-export default Home;
+export default Account;

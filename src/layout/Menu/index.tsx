@@ -68,6 +68,7 @@ const MenuWrap: FC<IProps> = ({ data = [], openKeyProp, selectedKey, onSelectedC
       openKeys={openKey}
       onOpenChange={onOpenChange}
       onSelect={onSelect}
+      theme='light'
       items={data.map((v) => {
         return v.children
           ? {

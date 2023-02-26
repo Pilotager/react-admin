@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react';
 import type { PluginOption, ConfigEnv } from 'vite';
 import viteCompression from 'vite-plugin-compression';
 import removeConsole from 'vite-plugin-remove-console';
+import svgr from 'vite-plugin-svgr';
 import {
   VITE_APP_ANALYZE,
   VITE_APP_COMPRESS_GZIP,
@@ -17,6 +18,7 @@ export function createVitePlugins(viteEnv: string, command: ConfigEnv['command']
     react(),
     viteMock(command),
     removeConsole(),
+    svgr(),
   ];
 
   // rollup-plugin-visualizer

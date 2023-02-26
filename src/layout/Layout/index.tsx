@@ -1,7 +1,17 @@
 import './index.less';
 
-import { FC, Suspense, useState, createElement, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import {
+  FC,
+  Suspense,
+  useState,
+  createElement,
+  useEffect,
+  useMemo,
+  useRef,
+  type ReactElement,
+  type JSXElementConstructor,
+} from 'react';
+import { useLocation, useRoutes } from 'react-router-dom';
 import { observer, useLocalObservable } from 'mobx-react';
 import { Layout } from 'antd';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
@@ -10,8 +20,26 @@ import store from '@/stores';
 import Header from '../Header';
 import TagsNav from '../TagsNav';
 import Menu from '../Menu';
+import KeepAlive from '../KeepAlive';
+import Loading from '../Loading';
 
 const { Content, Sider } = Layout;
+
+type IProps = {
+  route: any;
+};
+
+function makeRouteObject(routes: any) {
+  return routes.map((route) => {
+    return {
+      path: route.path,
+      name: route.name,
+      meta: route.meta,
+      element: <route.component />,
+      children: !route.children ? undefined : makeRouteObject(route.children),
+    };
+  }, routes);
+}
 
 const TriggerNode: FC<{ collapsed: boolean; onClick: () => void }> = ({ collapsed, onClick }) => {
   return (
@@ -23,17 +51,25 @@ const TriggerNode: FC<{ collapsed: boolean; onClick: () => void }> = ({ collapse
   );
 };
 
-const LayoutWrap: FC = () => {
+const LayoutWrap: FC<IProps> = ({ route }) => {
   const location = useLocation();
   const { tagList, menuList, menuFlattenList, activeTagCode, getMenuData, addTag, setActiveTag } =
     useLocalObservable(() => store.appStore);
   const [openKey, setOpenkey] = useState<string>('');
   const [selectedKey, setSelectedKey] = useState<string>(location.pathname);
   const [collapsed, setCollapsed] = useState(false);
+  const eleRef = useRef<ReactElement<any, string | JSXElementConstructor<any>> | null>();
 
   useEffect(() => {
     getMenuData();
   }, []);
+
+  const [routeObject] = useMemo(() => {
+    if (!route.children) {
+      return [[]];
+    }
+    return [makeRouteObject(route.children)];
+  }, [route.children]);
 
   useEffect(() => {
     const item = menuFlattenList.find((v: IMenuItem) => v.url === location.pathname);
@@ -55,17 +91,25 @@ const LayoutWrap: FC = () => {
     }
   }, [location.pathname, menuFlattenList]);
 
+  const ele = useRoutes(routeObject, location);
+
+  useMemo(() => {
+    eleRef.current = ele;
+    return {};
+    // eslint-disable-next-line
+  }, [routeObject, location]);
+
   return (
     <Layout className='admin-layout'>
       <Header />
       <Layout>
         <Sider
+          className='admin-layout-sider'
           collapsible
           collapsed={collapsed}
-          trigger={<TriggerNode collapsed={collapsed} onClick={() => setCollapsed(!collapsed)} />}
-          theme='light'
           width={208}
-          className='admin-layout-sider'>
+          theme='light'
+          trigger={<TriggerNode collapsed={collapsed} onClick={() => setCollapsed(!collapsed)} />}>
           <div className='admin-layout-menu-wrap'>
             <Menu
               data={menuList}
@@ -77,8 +121,9 @@ const LayoutWrap: FC = () => {
         </Sider>
         <Content>
           <TagsNav data={tagList} activeTagCode={activeTagCode} />
-          <Suspense fallback={null}>
-            <Outlet />
+          <Suspense fallback={<Loading />}>
+            {/* <Outlet /> */}
+            <KeepAlive name={selectedKey}>{eleRef.current}</KeepAlive>
           </Suspense>
         </Content>
       </Layout>
