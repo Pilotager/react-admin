@@ -73,8 +73,8 @@ const LayoutWrap: FC<IProps> = ({ route }) => {
 
   useEffect(() => {
     const item = menuFlattenList.find((v: IMenuItem) => v.url === location.pathname);
-    setOpenkey(item?.parent || '');
-    setSelectedKey(item?.url || '');
+    !!item && setOpenkey(item?.parent || '');
+    !!item && setSelectedKey(item?.url || '');
     if (item) {
       addTag({
         path: item.url,
@@ -95,8 +95,6 @@ const LayoutWrap: FC<IProps> = ({ route }) => {
 
   useMemo(() => {
     eleRef.current = ele;
-    return {};
-    // eslint-disable-next-line
   }, [routeObject, location]);
 
   return (
@@ -122,7 +120,6 @@ const LayoutWrap: FC<IProps> = ({ route }) => {
         <Content>
           <TagsNav data={tagList} activeTagCode={activeTagCode} />
           <Suspense fallback={<Loading />}>
-            {/* <Outlet /> */}
             <KeepAlive name={selectedKey}>{eleRef.current}</KeepAlive>
           </Suspense>
         </Content>

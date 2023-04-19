@@ -14,29 +14,27 @@ import { createPortal } from 'react-dom';
 
 type IProps = {
   name: string;
+  max?: number;
   children?: ReactNode | ReactNode[];
 };
 
 interface IReactNodes {
   name: string;
-  element?: ReactNode;
+  componentInstance?: ReactNode;
 }
 
-const KeepAlive: FC<IProps> = ({ children, name }) => {
+const KeepAlive: FC<IProps> = ({ children, name, max }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [reactNodes, setReactNodes] = useState<IReactNodes[]>([]);
 
   useEffect(() => {
-    if (!name) {
-      return;
-    }
     const reactNode = reactNodes.find((v) => v.name === name);
     if (reactNode === undefined) {
       setReactNodes([
         ...reactNodes,
         {
           name,
-          element: children,
+          componentInstance: children,
         },
       ]);
       return;
@@ -48,7 +46,7 @@ const KeepAlive: FC<IProps> = ({ children, name }) => {
       <div ref={containerRef} className='keep-alive' />
       {reactNodes.map((v) => (
         <Portal renderWrap={containerRef} actived={name === v.name} name={v.name} key={v.name}>
-          {v.element}
+          {v.componentInstance}
         </Portal>
       ))}
     </Fragment>
@@ -70,7 +68,9 @@ const Portal: FC<{
     } else {
       try {
         renderWrap.current?.removeChild(targetElement);
-      } catch (e) {}
+      } catch (e) {
+        /* empty */
+      }
     }
   }, [targetElement, name, renderWrap, actived]);
   useEffect(() => {
