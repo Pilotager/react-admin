@@ -15,7 +15,7 @@ export default function vitePluginImpFun() {
         libName: 'antd',
         style(name) {
           // use less
-          return `antd/es/${name}/style/index.js`;
+          return false;
         },
       },
     ],

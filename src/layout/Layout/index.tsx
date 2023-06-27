@@ -30,7 +30,7 @@ type IProps = {
 };
 
 function makeRouteObject(routes: any) {
-  return routes.map((route) => {
+  return routes.map((route: any) => {
     return {
       path: route.path,
       name: route.name,

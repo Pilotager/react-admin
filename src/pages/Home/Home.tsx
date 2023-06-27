@@ -24,6 +24,12 @@ const columns: ISchemaItem[] = [
     width: 200,
     placeholder: '请选择状态',
   },
+  {
+    label: '时间',
+    valueType: 'datePicker',
+    dataIndex: 'date',
+    placeholder: '请选择时间',
+  },
 ];
 
 const Home: FC = () => {

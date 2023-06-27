@@ -7,6 +7,7 @@ import { UserOutlined, BellOutlined } from '@ant-design/icons';
 import { ReactComponent as MoonSvg } from '@/assets/svg/layout/moon.svg';
 import { ReactComponent as SunSvg } from '@/assets/svg/layout/sun.svg';
 import store from '@/stores';
+import Notice from '../Notice';
 
 const { Header } = Layout;
 
@@ -38,7 +39,7 @@ const HeaderWrap: FC = () => {
           })}
         </div>
         <div className='admin-layout-header_switch'>
-          <BellOutlined className='admin-layout-header_notice' />
+          <Notice />
         </div>
         <Dropdown menu={{ items }} className='admin-layout-header_drop'>
           <div>

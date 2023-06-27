@@ -1,0 +1,60 @@
+@import '@/styles/mixins/ellipsis.less';
+
+.admin-notice {
+  &_box {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &_content {
+    width: 336px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.08), 0 9px 28px 0 rgba(0, 0, 0, 0.05),
+      0 12px 48px 16px rgba(0, 0, 0, 0.03);
+
+    &__item {
+      cursor: pointer;
+      transition: all 0.3s;
+      border-block-end: none !important;
+
+      &:hover {
+        background: #e6f7ff;
+      }
+    }
+
+    &__title {
+      margin-bottom: 8px;
+
+      .ellipsis(2);
+    }
+
+    &__footer {
+      height: 46px;
+      color: rgba(0, 0, 0, 0.85);
+      line-height: 46px;
+      text-align: center;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 0 0 2px 2px;
+      transition: all 0.3s;
+
+      div {
+        display: inline-block;
+        width: 50%;
+        cursor: pointer;
+        transition: all 0.3s;
+        user-select: none;
+
+        &:not(:only-child):last-child {
+          border-left: 1px solid rgba(0, 0, 0, 0.06);
+        }
+      }
+    }
+
+    .ant-list-footer {
+      padding: 0;
+    }
+  }
+}

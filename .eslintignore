@@ -1,6 +1,7 @@
 dist/
 node_modules/
 vite.config.js
+package.json
 
 !.eslintrc.cjs
 !.prettierrc.cjs

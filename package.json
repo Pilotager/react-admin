@@ -12,7 +12,8 @@
     "lint:fix": "eslint --cache --ext .js,.jsx,.ts,.tsx --no-error-on-unmatched-pattern --quiet --fix ./src"
   },
   "dependencies": {
-    "antd": "^5.2.1",
+    "@ant-design/icons": "^5.1.4",
+    "antd": "^5.6.3",
     "axios": "^1.3.3",
     "dayjs": "^1.11.7",
     "less": "^4.1.3",
@@ -27,7 +28,7 @@
   "devDependencies": {
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.14.0",
-    "@types/react": "^18.0.27",
+    "@types/react": "^18.2.14",
     "@types/react-dom": "^18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
@@ -52,7 +53,7 @@
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
     "vite-plugin-compression": "^0.5.1",
-    "vite-plugin-imp": "^2.3.1",
+    "vite-plugin-imp": "^2.4.0",
     "vite-plugin-mock": "^2.9.6",
     "vite-plugin-remove-console": "^2.0.0",
     "vite-plugin-svgr": "^2.4.0"
