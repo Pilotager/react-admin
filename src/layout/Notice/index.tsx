@@ -1,19 +1,23 @@
 import './index.less';
 
-import { FC } from 'react';
-import { observer } from 'mobx-react';
-import { Badge, Dropdown, Tabs, List, type TabsProps } from 'antd';
+import { FC, memo } from 'react';
+import { Badge, Dropdown, Tabs } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
+import type { INoticeItem } from '@/interfaces';
 import ListWrap from './List';
 
-const Notice: FC = () => {
+type INotice = {
+  data: INoticeItem[];
+};
+
+const Notice: FC<INotice> = ({ data = [] }) => {
   return (
     <Dropdown
       className='admin-notice'
       trigger={['click']}
-      dropdownRender={() => <DropdownRenderEl />}>
+      dropdownRender={() => <DropdownRenderEl data={data} />}>
       <div className='admin-notice_box'>
-        <Badge count={1}>
+        <Badge count={data.length}>
           <BellOutlined className='admin-layout-header_notice' />
         </Badge>
       </div>
@@ -21,45 +25,39 @@ const Notice: FC = () => {
   );
 };
 
-const data = [
-  {
-    title: 'Ant Design Title 1',
-  },
-  {
-    title: 'Ant Design Title 2',
-  },
-  {
-    title: 'Ant Design Title 3',
-  },
-  {
-    title: 'Ant Design Title 4',
-  },
-];
+type IDropdownRenderEl = {
+  data: INoticeItem[];
+};
 
-const tabItems: TabsProps['items'] = [
-  {
-    key: '1',
-    label: '通知（4）',
-    children: <ListWrap data={data} />,
-  },
-  {
-    key: '2',
-    label: '消息（4）',
-    children: <ListWrap />,
-  },
-  {
-    key: '3',
-    label: '代办（4）',
-    children: <ListWrap />,
-  },
-];
-
-const DropdownRenderEl = () => {
+const DropdownRenderEl: FC<IDropdownRenderEl> = ({ data = [] }) => {
+  const notificationList = data.filter((v) => v.type === 'notification');
+  const messageList = data.filter((v) => v.type === 'message');
+  const todoList = data.filter((v) => v.type === 'event');
   return (
     <div className='admin-notice_content'>
-      <Tabs defaultActiveKey='1' centered items={tabItems} />
+      <Tabs
+        defaultActiveKey='1'
+        centered
+        items={[
+          {
+            key: '1',
+            label: `通知（${notificationList.length}）`,
+            children: <ListWrap data={notificationList} type='notification' />,
+          },
+          {
+            key: '2',
+            label: `通知（${messageList.length}）`,
+            children: <ListWrap data={messageList} type='message' />,
+          },
+          {
+            key: '3',
+            label: `通知（${todoList.length}）`,
+            children: <ListWrap data={todoList} type='event' />,
+          },
+        ]}
+      />
     </div>
   );
 };
 
-export default observer(Notice);
+export default memo(Notice);

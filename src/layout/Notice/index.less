@@ -19,16 +19,34 @@
       cursor: pointer;
       transition: all 0.3s;
       border-block-end: none !important;
+      padding-right: 24px !important;
+      padding-left: 24px !important;
+      overflow: hidden;
 
       &:hover {
         background: #e6f7ff;
+      }
+
+      .description {
+        font-size: 12px;
+        line-height: 1.5715;
+      }
+
+      .datetime {
+        margin-top: 4px;
+        font-size: 12px;
+        line-height: 1.5715;
       }
     }
 
     &__title {
       margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
 
-      .ellipsis(2);
+      .tag {
+        margin-inline-end: 0;
+      }
     }
 
     &__footer {

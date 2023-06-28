@@ -1,23 +1,44 @@
-import { FC } from 'react';
-import { List, Avatar } from 'antd';
+import { FC, memo } from 'react';
+import { List, Avatar, Tag } from 'antd';
+import type { INoticeItem, NoticeType } from '@/interfaces';
 
 type IProps = {
-  data?: any[];
+  data: INoticeItem[];
+  type: NoticeType;
 };
 
-const ListWrap: FC<IProps> = ({ data = [] }) => {
+const tagColor = {
+  todo: '',
+  urgent: 'red',
+  processing: 'blue',
+  doing: 'gold',
+};
+
+const ListWrap: FC<IProps> = ({ data = [], type }) => {
   return (
     <List
       itemLayout='horizontal'
       dataSource={data}
-      renderItem={(item, index) => (
+      renderItem={(item) => (
         <List.Item className='admin-notice_content__item'>
           <List.Item.Meta
-            avatar={
-              <Avatar src={`https://xsgames.co/randomusers/avatar.php?g=pixel&key=${index}`} />
+            avatar={!item.avatar ? null : <Avatar src={item.avatar} />}
+            title={
+              <div className='admin-notice_content__title'>
+                {item.title}
+                {type === 'event' && (
+                  <Tag className='tag' color={tagColor[item.status || 'todo']}>
+                    {item.extra}
+                  </Tag>
+                )}
+              </div>
             }
-            title={<div className='admin-notice_content__title'>{item.title}</div>}
-            description='6年前'
+            description={
+              <div>
+                {!!item.description && <div className='description'>{item.description}</div>}
+                {!!item.datetime && <div className='datetime'>{item.datetime}</div>}
+              </div>
+            }
           />
         </List.Item>
       )}
@@ -31,4 +52,4 @@ const ListWrap: FC<IProps> = ({ data = [] }) => {
   );
 };
 
-export default ListWrap;
+export default memo(ListWrap);

@@ -1,8 +1,8 @@
 //  mockProdServer.ts
 import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer';
-import { menu } from './user';
+import { menu, notice } from './user';
 
-const mockModules = [...menu];
+const mockModules = [...menu, ...notice];
 
 export function setupProdMockServer() {
   createProdMockServer(mockModules);

@@ -55,6 +55,7 @@ const LayoutWrap: FC<IProps> = ({ route }) => {
   const location = useLocation();
   const { tagList, menuList, menuFlattenList, activeTagCode, getMenuData, addTag, setActiveTag } =
     useLocalObservable(() => store.appStore);
+  const { getNoticeData } = useLocalObservable(() => store.userStore);
   const [openKey, setOpenkey] = useState<string>('');
   const [selectedKey, setSelectedKey] = useState<string>(location.pathname);
   const [collapsed, setCollapsed] = useState(false);
@@ -62,6 +63,7 @@ const LayoutWrap: FC<IProps> = ({ route }) => {
 
   useEffect(() => {
     getMenuData();
+    getNoticeData();
   }, []);
 
   const [routeObject] = useMemo(() => {

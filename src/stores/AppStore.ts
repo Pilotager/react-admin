@@ -13,7 +13,7 @@ const userSystemTheme: ThemeType = window.matchMedia('(prefers-color-scheme: lig
   : 'dark';
 const userLocalTheme: ThemeType = (localStorage.getItem('user-theme') as ThemeType) || 'light';
 
-// 页签全局Store
+// 系统状态全局Store
 class AppStore {
   constructor() {
     makeAutoObservable(this);

@@ -3,7 +3,7 @@ import './index.less';
 import { FC, createElement } from 'react';
 import { observer, useLocalObservable } from 'mobx-react';
 import { Layout, Avatar, Dropdown, Space, type MenuProps } from 'antd';
-import { UserOutlined, BellOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { ReactComponent as MoonSvg } from '@/assets/svg/layout/moon.svg';
 import { ReactComponent as SunSvg } from '@/assets/svg/layout/sun.svg';
 import store from '@/stores';
@@ -24,6 +24,8 @@ const items: MenuProps['items'] = [
 
 const HeaderWrap: FC = () => {
   const { theme, setTheme } = useLocalObservable(() => store.appStore);
+  const { noticeList } = useLocalObservable(() => store.userStore);
+
   return (
     <Header className='admin-layout-header'>
       <div className='admin-layout-header_logo'>
@@ -39,7 +41,7 @@ const HeaderWrap: FC = () => {
           })}
         </div>
         <div className='admin-layout-header_switch'>
-          <Notice />
+          <Notice data={noticeList} />
         </div>
         <Dropdown menu={{ items }} className='admin-layout-header_drop'>
           <div>
