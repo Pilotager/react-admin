@@ -5,6 +5,7 @@ import type { INoticeItem, NoticeType } from '@/interfaces';
 type IProps = {
   data: INoticeItem[];
   type: NoticeType;
+  onClick?: (item: INoticeItem) => void;
 };
 
 const tagColor = {
@@ -14,13 +15,13 @@ const tagColor = {
   doing: 'gold',
 };
 
-const ListWrap: FC<IProps> = ({ data = [], type }) => {
+const ListWrap: FC<IProps> = ({ data = [], type, onClick }) => {
   return (
     <List
       itemLayout='horizontal'
       dataSource={data}
       renderItem={(item) => (
-        <List.Item className='admin-notice_content__item'>
+        <List.Item className='admin-notice_content__item' onClick={() => onClick?.(item)}>
           <List.Item.Meta
             avatar={!item.avatar ? null : <Avatar src={item.avatar} />}
             title={

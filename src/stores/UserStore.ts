@@ -1,4 +1,4 @@
-import { makeAutoObservable, computed, runInAction } from 'mobx';
+import { makeAutoObservable, computed, runInAction, action } from 'mobx';
 import { message } from 'antd';
 import { getNoticeListApi } from '@/apis';
 import { INoticeItem } from '@/interfaces';
@@ -23,6 +23,11 @@ class UserStore {
     runInAction(() => {
       this.noticeData = res.data || [];
     });
+  };
+
+  @action('点击消息')
+  public onNoticeClick = (item: INoticeItem) => {
+    console.log(item.id);
   };
 
   @computed

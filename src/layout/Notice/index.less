@@ -76,3 +76,24 @@
     }
   }
 }
+
+body[theme='dark'] {
+  .admin-notice {
+    &_content {
+      background-color: rgb(36, 37, 37);
+      box-shadow: rgba(13, 13, 13, 0.08) 0px 6px 16px -8px, rgba(13, 13, 13, 0.05) 0px 9px 28px 0px,
+        rgba(13, 13, 13, 0.03) 0px 12px 48px 16px;
+
+      &__item {
+        &:hover {
+          background: #113545;
+        }
+      }
+
+      &__footer {
+        color: rgba(229, 224, 216, 0.85);
+        border-top-color: rgba(143, 132, 117, 0.06);
+      }
+    }
+  }
+}

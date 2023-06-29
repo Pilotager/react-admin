@@ -29,16 +29,19 @@
 //   return <RouterProvider router={router} />;
 // };
 
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Loading } from '@/layout';
 import { routes } from './RouterConfig';
+
+const Login = lazy(() => import('@/pages/Login/Login'));
 
 const RouterWrapper = () => {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loading />}>
         <Routes>
+          <Route path='/login' key='login' element={<Login />} />
           {routes.map((route) => (
             <Route path={route.path} key={route.name} element={<route.component route={route} />} />
           ))}
