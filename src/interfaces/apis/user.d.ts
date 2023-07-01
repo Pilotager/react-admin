@@ -23,3 +23,9 @@ export interface INoticeItem {
   clickClose?: boolean;
   status?: NoticeStatus;
 }
+
+/** *********** 登录 *************/
+export interface ILoginReq {
+  username: string;
+  password: string;
+}

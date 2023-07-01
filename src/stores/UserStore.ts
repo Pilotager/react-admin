@@ -1,7 +1,7 @@
 import { makeAutoObservable, computed, runInAction, action } from 'mobx';
 import { message } from 'antd';
-import { getNoticeListApi } from '@/apis';
-import { INoticeItem } from '@/interfaces';
+import { getNoticeListApi, loginApi } from '@/apis';
+import { INoticeItem, ILoginReq } from '@/interfaces';
 
 const { error } = message;
 
@@ -22,6 +22,18 @@ class UserStore {
     }
     runInAction(() => {
       this.noticeData = res.data || [];
+    });
+  };
+
+  // 登录
+  public login = async (data: ILoginReq) => {
+    const res = await loginApi(data);
+    if (res.errorCode !== 'SUCCESS') {
+      error(res.errorMsg);
+      return;
+    }
+    runInAction(() => {
+      console.log('登录成功');
     });
   };
 
