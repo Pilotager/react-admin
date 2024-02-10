@@ -3,20 +3,16 @@ import './index.less';
 import { FC } from 'react';
 import { Form, Button, Input, Checkbox } from 'antd';
 import { UserOutlined, UnlockOutlined } from '@ant-design/icons';
+import { ILoginReq } from '@/interfaces';
 
 const { Item } = Form;
 
-type IFormValues = {
-  username: string;
-  password: string;
-};
-
 type ILoginForm = {
-  onFinish?: (values: IFormValues) => void;
+  onFinish?: (values: ILoginReq) => void;
 };
 
 const LoginForm: FC<ILoginForm> = ({ onFinish: onFinishProps }) => {
-  const onFinish = (values: IFormValues): void => {
+  const onFinish = (values: ILoginReq): void => {
     onFinishProps?.(values);
   };
 

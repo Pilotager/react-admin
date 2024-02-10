@@ -32,9 +32,7 @@ class UserStore {
       error(res.errorMsg);
       return;
     }
-    runInAction(() => {
-      console.log('登录成功');
-    });
+    location.href = '/';
   };
 
   @action('点击消息')

@@ -7,21 +7,6 @@ const menuData = [
     url: '/',
     name: '工作台',
   },
-  {
-    code: 'patient',
-    icon: 'UserOutlined',
-    url: '/patient',
-    name: '患者管理',
-    children: [
-      {
-        parent: '/patient',
-        code: 'patient-list',
-        icon: 'UserOutlined',
-        url: '/patient/patient-list',
-        name: '患者列表',
-      },
-    ],
-  },
 ];
 
 export const menu: MockMethod[] = [
