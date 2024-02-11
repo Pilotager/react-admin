@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosInstance } from 'axios';
+import { pickBy } from 'lodash';
 
 interface IOptions extends AxiosRequestConfig {
   noEmpty?: boolean; // 是否要过滤空值
@@ -76,10 +77,10 @@ export class HttpRequest {
     return new Promise((resolve, reject) => {
       const instance = axios.create();
       instance.defaults.withCredentials = true;
-      // 过滤空值
-      // if (!(options.data instanceof FormData) && !options.noEmpty) {
-      //   options.data = clean(options.data);
-      // }
+      // 过滤空值;
+      if (!(options.data instanceof FormData) && !options.noEmpty) {
+        options.data = pickBy(options.data);
+      }
       // 获取配置
       const config = this.getInsideConfig();
       options = Object.assign(config, options, {
